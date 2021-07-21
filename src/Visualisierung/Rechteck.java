@@ -21,7 +21,7 @@ public class Rechteck extends JLabel{
 	}
 	
 	public void setIcon() {
-		ImageIcon icon = new ImageIcon(aktuellerPfad); //TODO
+		ImageIcon icon = new ImageIcon(aktuellerPfad);
 		Image image = icon.getImage();
 		image = image.getScaledInstance(WIDTH, hight, Image.SCALE_SMOOTH);
 		icon.setImage(image);
@@ -45,9 +45,4 @@ public class Rechteck extends JLabel{
 	public int getValue() {
 		return hight;
 	}
-	
-	public void giveColor() {
-		System.out.println(aktuellerPfad);
-	}
-	
 }

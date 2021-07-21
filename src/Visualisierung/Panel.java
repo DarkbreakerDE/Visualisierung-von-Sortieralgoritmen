@@ -17,10 +17,10 @@ public class Panel extends JPanel implements ActionListener {
 	private int zahl2;
 	private final Timer timer;
 	private String selectedsort;
-	private SteuerungPanel s ;
+	private final SteuerungPanel s ;
 	private boolean play;
 	
-	public Panel() {
+	public Panel(SteuerungPanel s) {
 		super.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		super.setBorder(new EmptyBorder(new Insets(30, 30, 30, 30)));
 		//super.setBackground(Consts.BACKGROUNDCOLOR.getColor());
@@ -32,12 +32,11 @@ public class Panel extends JPanel implements ActionListener {
 		listeAlt = new Rechteck[anzahlElemente];
 		listeNeu = new Rechteck[anzahlElemente];
 		empty = new Component[anzahlElemente];
-		delay = 2; //TODO
 		play = false;
+		this.s = s;
 
 		listeErstellen();
 		draw();
-		
 		}
 	
 	private void listeErstellen() {
@@ -80,20 +79,9 @@ public class Panel extends JPanel implements ActionListener {
 			super.remove(listeAlt[i]);
 			super.remove(empty[i]);
 		}
-		
 	}
 	
-	public Panel getSelf() {
-		return this;
-	}
-	
-	private void delay() {
-			try {
-				Thread.sleep(delay);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-	}
+	public Panel getSelf() {return this;}
 	
 	private void selectionsort(int o, int i) {
 		listeNeu = listeAlt;
@@ -108,8 +96,7 @@ public class Panel extends JPanel implements ActionListener {
 		draw();
 	}
 	
-	public void Selectionsort(SteuerungPanel s) {
-		this.s = s;
+	public void Selectionsort() {
 		zahl1 = 0;
 		zahl2 = 0;
 		play = true;
@@ -121,16 +108,16 @@ public class Panel extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (selectedsort != null) {
 			switch (selectedsort) {
-				case "Selectionsort":
+				case "Selectionsort" -> {
 					int[] zahlen = getNumbersSelectionSort();
 					System.out.println(zahlen[0] + " " + zahlen[1]);
 					selectionsort(zahlen[0], zahlen[1]);
-					break;
-				case "bubbleSort":
+				}
+				case "bubbleSort" -> {
 					int zahlen1 = getNumbersBubbleSort();
 					System.out.println(zahlen1);
 					bubbleSort(zahlen1);
-					break;
+				}
 			}
 		}
 	}
@@ -138,28 +125,23 @@ public class Panel extends JPanel implements ActionListener {
 	private int[] getNumbersSelectionSort() {
 		if (zahl2 < anzahlElemente-1) {
 			zahl2++;
-			int[] a = {zahl1, zahl2};
-			return a;
+			return new int[]{zahl1, zahl2};
 		} else if (zahl1 < anzahlElemente-1) {
 			zahl1++;
 			zahl2 = 0;
-			int[] a = {zahl1, zahl2};
-			return a;
+			return new int[]{zahl1, zahl2};
 		} else {
 			timer.stop();
 			play = false;
 			s.semaphor = false;
 		}
-		int[] a = {zahl1, zahl2};
-		return a;	
+		return new int[]{zahl1, zahl2};
 	}
 
 	public void reset() {
 		try {
 			delete();
-		} catch (Exception e) {
-
-		}
+		} catch (Exception e) {}
 		listeErstellen();
 		draw();
 		s.semaphor = false;
@@ -172,7 +154,7 @@ public class Panel extends JPanel implements ActionListener {
 		s.semaphor = false;
 	}
 	public void pause(){
-		if (play == false){
+		if (!play){
 			play = true;
 			timer.start();
 		} else {
@@ -197,8 +179,7 @@ public class Panel extends JPanel implements ActionListener {
 		}
 		draw();
 	}
-	public void BubbleSort(SteuerungPanel s){
-		this.s = s;
+	public void BubbleSort(){
 		zahl1 = anzahlElemente -1;
 		zahl2 = 0;
 		selectedsort = "bubbleSort";
@@ -208,19 +189,16 @@ public class Panel extends JPanel implements ActionListener {
 	public int getNumbersBubbleSort(){
 		if (zahl2 < zahl1-1) {
 			zahl2++;
-			int a = zahl2;
-			return a;
+			return zahl2;
 		} else if (zahl1 > 1) {
 			zahl1--;
 			zahl2 = 0;
-			int a = zahl2;
-			return a;
+			return zahl2;
 		} else {
 			timer.stop();
 			play = false;
 			s.semaphor = false;
 		}
-		int a = zahl2;
-		return a;
+		return zahl2;
 	}
 }
